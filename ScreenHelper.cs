@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//creates a box for the Drag-Select mechanic
+
 public class ScreenHelper : MonoBehaviour
 {
     static Texture2D _whiteTexture;

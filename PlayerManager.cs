@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Player mechanics are handled here
+
 public class PlayerManager : MonoBehaviour
 {
     private RaycastHit hit;
@@ -12,6 +14,7 @@ public class PlayerManager : MonoBehaviour
 
     private void OnGUI()
     {
+        //Simulates Drag-Select while mouse is held down
         if(isDragging)
         {
             var rect = ScreenHelper.GetScreenRect(mousePos, Input.mousePosition);
@@ -53,6 +56,7 @@ public class PlayerManager : MonoBehaviour
         {
             if(isDragging)
             {
+                //Deselect current selected units and select units in drag-select zone
                 DeselectUnits();
                 foreach (var selectableObject in FindObjectsOfType<PlayerUnitController>())
                 {
@@ -94,6 +98,7 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    //only select one unit while isMultiSelect(shift button) is false
     private void SelectUnit(UnitController unit, bool isMultiSelect = false)
     {
         if (!isMultiSelect)
@@ -104,6 +109,7 @@ public class PlayerManager : MonoBehaviour
         unit.SetSelected(true);
     }
 
+    //removes units from selectedUnits array
     private void DeselectUnits()
     {
         for (int i = 0; i < selectedUnits.Count; i++)
@@ -113,6 +119,7 @@ public class PlayerManager : MonoBehaviour
         selectedUnits.Clear();
     }
 
+    //determins the bounds of the drag-select
     private bool IsWithinSelectBounds(Transform transform)
     {
         if(!isDragging)
@@ -126,6 +133,8 @@ public class PlayerManager : MonoBehaviour
 
     public void BuildUnit()
     {
-
+        /*
+         * 
+         */
     }
 }

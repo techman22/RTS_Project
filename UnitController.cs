@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+//Defines the behavior of standard units
+
 public class UnitController : MonoBehaviour
 {
 
@@ -63,6 +65,7 @@ public class UnitController : MonoBehaviour
         StartCoroutine(Flasher(GetComponent<Renderer>().material.color));
     }
 
+    //Unit flashes when taking damage
     IEnumerator Flasher(Color defaultColor)
     {
         for (int i = 0; i < 2; i++)

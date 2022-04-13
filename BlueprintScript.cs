@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Allows building blueprint to follow mouse for placing
+
 public class BlueprintScript : MonoBehaviour
 {
     RaycastHit hit;
