@@ -9,6 +9,8 @@ TagManager:
   - EnemyUnit
   - Building
   - EnemyBuilding
+  - PlayerCar
+  - EnCart
   layers:
   - Default
   - TransparentFX

@@ -29,14 +29,14 @@ public class PlayerManager : MonoBehaviour
     }
     void Start()
     {
-         SelectedObject = Selection.activeTransform.gameObject;
+         //SelectedObject = Selection.activeTransform.gameObject;
     }
     // Update is called once per frame
     void Update()
     {
-        
+        GameObject.Find("Canvas").GetComponent<UI_Controller>().ResourceUpdate();
         //on mouse down
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             // Check if the mouse was clicked over a UI element
             if (EventSystem.current.IsPointerOverGameObject())
@@ -103,8 +103,8 @@ public class PlayerManager : MonoBehaviour
                         SelectableObj.MoveUnit(hit.point);
                     }
                 }
-                //if right click on enemy
-                else if(hit.transform.CompareTag("EnemyUnit"))
+                //if right click on an enemy unit or building
+                else if(hit.transform.CompareTag("EnemyUnit") || hit.transform.CompareTag("EnemyBuilding"))
                 {
                     //move units to enemy
                     foreach (var SelectableObj in selectedUnits)
@@ -167,6 +167,11 @@ public class PlayerManager : MonoBehaviour
 
     public void BuildUnit()
     {
-        Instantiate(Unit, Spawn.position, Spawn.rotation);
+        if(GlobalVariables.pResources >= 300)
+        {
+            Instantiate(Unit, Spawn.position, Spawn.rotation);
+            GlobalVariables.pResources -= 300;
+        }
+        
     }
 }

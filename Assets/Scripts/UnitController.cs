@@ -12,9 +12,12 @@ public class UnitController : MonoBehaviour
 
     public UnitStats unitStats;
     private float health;
+    public Transform target;
+    private Animator anim;
 
     private void Start()
     {
+        anim = GetComponent<Animator>();
         health = unitStats.health;
         navAgent = GetComponent<NavMeshAgent>();
         attackTimer = unitStats.attackSpeed;
@@ -26,17 +29,29 @@ public class UnitController : MonoBehaviour
         if (curTarget != null)
         {
             navAgent.destination = curTarget.position;
-
+            Vector3 LookAtPos = curTarget.position;
+            LookAtPos.y = transform.position.y;
+            transform.LookAt(LookAtPos);
             var distance = (transform.position - curTarget.position).magnitude;
             if(distance <= unitStats.attackRange)
             {
+                anim.SetBool("Walking", false);
                 Attack();
             }
+            else
+            {
+                anim.SetBool("Walking", true);
+            }
+        }
+        if (transform.position == navAgent.destination)
+        {
+            anim.SetBool("Walking", false);
         }
     }
 
     public void MoveUnit(Vector3 dest)
     {
+        anim.SetBool("Walking", true);
         curTarget = null;
         navAgent.destination = dest;
     }
@@ -53,9 +68,22 @@ public class UnitController : MonoBehaviour
 
     public void Attack()
     {
+        anim.SetBool("Attacking", true);
         if (attackTimer >= unitStats.attackSpeed)
         {
-            RTSGameManager.UnitTakeDamage(this, curTarget.GetComponent<UnitController>());
+            if (curTarget.tag == "PlayerUnit" || curTarget.tag == "EnemyUnit")
+            {
+                RTSGameManager.UnitTakeDamage(this, curTarget.GetComponent<UnitController>());
+                if(curTarget.GetComponent<UnitController>().health <= 0)
+                {
+                    curTarget = null;
+                    anim.SetBool("Attacking", false);
+                }
+            }
+            else if (curTarget.tag == "Building" || curTarget.tag == "EnemyBuilding")
+            {
+                RTSGameManager.BuildingTakeDamage(this, curTarget.GetComponent<BuildingInteraction>());
+            }
             attackTimer = 0;
         }
     }
@@ -63,7 +91,7 @@ public class UnitController : MonoBehaviour
     public void TakeDamage(UnitController enemy, float damage)
     {
         StartCoroutine(Flasher(GetComponent<Renderer>().material.color));
-        health -= 10;
+        health -= damage;
         if (health <= 0)
         {
             Destroy(gameObject);
@@ -85,7 +113,7 @@ public class UnitController : MonoBehaviour
     {
         if(gameObject.tag == "PlayerUnit")
         {
-            if (other.tag == "EnemyUnit")
+            if (other.tag == "EnemyUnit" && curTarget == null)
             {
                 SetNewTarget(other.transform);
             }
@@ -93,7 +121,7 @@ public class UnitController : MonoBehaviour
         }
         else if (gameObject.tag == "EnemyUnit")
         {
-            if (other.tag == "PlayerUnit")
+            if (other.tag == "PlayerUnit" && curTarget == null)
             {
                 SetNewTarget(other.transform);
             }
