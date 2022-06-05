@@ -26,12 +26,12 @@ public class CapturePointManager : MonoBehaviour
     void Update()
     {
         //checks for which player to spawn a cart
-        if(pCapture && transform.childCount == 1)
+        if(pCapture && transform.childCount == 5)
         {
             clone = Instantiate(pCart, Spawn.position, Spawn.rotation);
             clone.transform.parent = transform;
         }
-        if (npcCapture && transform.childCount == 1)
+        if (npcCapture && transform.childCount == 5)
         {
             clone = Instantiate(npcCart, Spawn.position, Spawn.rotation);
             clone.transform.parent = transform;
@@ -43,7 +43,7 @@ public class CapturePointManager : MonoBehaviour
         if(other.gameObject.tag == "PlayerUnit")
         {
             npcCapture = false;
-            GetComponent<Renderer>().material.color = Color.blue;
+            transform.Find("Flag").GetComponent<Renderer>().material.color = Color.blue;
             if(pCapture == false)
             {
                 clone = Instantiate(pCart, Spawn.position, Spawn.rotation);
@@ -55,7 +55,7 @@ public class CapturePointManager : MonoBehaviour
         else if (other.gameObject.tag == "EnemyUnit")
         {
             pCapture = false;
-            GetComponent<Renderer>().material.color = Color.red;
+            transform.Find("Flag").GetComponent<Renderer>().material.color = Color.red;
             if (npcCapture == false)
             {
                 clone = Instantiate(npcCart, Spawn.position, Spawn.rotation);

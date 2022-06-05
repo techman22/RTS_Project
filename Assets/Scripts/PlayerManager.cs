@@ -11,6 +11,9 @@ public class PlayerManager : MonoBehaviour
     List<BuildingInteraction> selectedBuilding = new List<BuildingInteraction>();
     private bool isDragging = false;
     public bool buildMenu = false;
+    private bool building = false;
+    private float Timer = 0;
+    private float buildTime = 1;
     private Vector3 mousePos;
     private Transform Spawn;
     private GameObject SpawnLoc;
@@ -114,6 +117,16 @@ public class PlayerManager : MonoBehaviour
                 }
             }
         }
+        if(building)
+        {
+            Timer += Time.deltaTime;
+            if (Timer >= buildTime)
+            {
+                Instantiate(Unit, Spawn.position, Spawn.rotation);
+                building = false;
+                Timer = 0;
+            }
+        }
     }
 
     private void SelectUnit(UnitController unit, bool isMultiSelect = false)
@@ -167,11 +180,10 @@ public class PlayerManager : MonoBehaviour
 
     public void BuildUnit()
     {
-        if(GlobalVariables.pResources >= 300)
+        if(GlobalVariables.pResources >= 300 && !building)
         {
-            Instantiate(Unit, Spawn.position, Spawn.rotation);
+            building = true;
             GlobalVariables.pResources -= 300;
         }
-        
     }
 }
