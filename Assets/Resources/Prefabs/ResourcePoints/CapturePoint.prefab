@@ -269,7 +269,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 977e82bf79584a140a497470aded7138, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pCart: {fileID: 3340012381443516368, guid: 8e8199b06b013ec4d88f101d1ec90f84, type: 3}
+  pCart: {fileID: 7472852634538739806, guid: aaf57ef318e8ad348b9537ad7a08a280, type: 3}
   npcCart: {fileID: 1076889913002228848, guid: 1cc562fe72a9e3143a973e14c2adb242, type: 3}
   spawnPos: {fileID: 5312641763801225}
 --- !u!1 &6261090358140222253

@@ -43,6 +43,10 @@ public class UnitController : MonoBehaviour
                 anim.SetBool("Walking", true);
             }
         }
+        else
+        {
+            anim.SetBool("Attacking", false);
+        }
         if (transform.position == navAgent.destination)
         {
             anim.SetBool("Walking", false);

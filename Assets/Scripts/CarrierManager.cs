@@ -13,7 +13,7 @@ public class CarrierManager : MonoBehaviour
     {
         if(gameObject.tag == "PlayerCar")
         {
-            target = GameObject.Find("Building");
+            target = GameObject.FindWithTag("Building");
             endPos = target.transform;
         }
         else if (gameObject.tag == "EnCart")
@@ -30,7 +30,10 @@ public class CarrierManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(target != null)
+        Vector3 lookAtPosition = endPos.position;
+        lookAtPosition.y = transform.position.y;
+        transform.LookAt(lookAtPosition);
+        if (target != null)
         {
             transform.position = Vector3.MoveTowards(transform.position, endPos.position, Speed);
         }
